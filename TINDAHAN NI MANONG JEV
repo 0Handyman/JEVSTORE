@@ -1,0 +1,57 @@
+import javax.swing.JOptionPane;
+
+public class JEVSTORE {
+
+    public static void main(String[] args) {
+        // Product details
+        String[] products = {"PASTIL", "RICE", "HINALANG", "BULALO", "LETCHON MANOK"};
+        double[] prices = {10.0, 15.0, 20.0, 25.0, 30.0};
+        int discountThreshold = 2;
+        double discountPercentage = 0.1;
+
+        double totalAmount = 0.0;
+
+        // Continue the transaction until the user decides to finish
+        while (true) {
+            // Display product menu
+            StringBuilder menu = new StringBuilder("Product Menu:\n");
+            for (int i = 0; i < products.length; i++) {
+                menu.append(i + 1).append(". ").append(products[i]).append(" - $").append(prices[i]).append("\n");
+            }
+
+            // Get user input
+            int productIndex = Integer.parseInt(JOptionPane.showInputDialog(null, menu.toString() + "\nEnter the number of the product you want to purchase (or 0 to finish):"));
+
+            if (productIndex == 0) {
+                break;  // Finish the transaction
+            }
+
+            int quantity = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the quantity:"));
+
+            // Calculate total amount for the current product
+            double productTotal = prices[productIndex - 1] * quantity;
+
+            // Apply discount if applicable
+            if (quantity >= discountThreshold) {
+                productTotal *= (1 - discountPercentage);
+            }
+
+            // Add the current product total to the overall total
+            totalAmount += productTotal;
+        }
+
+        // Ask for cash and calculate change after the user finishes selecting products
+        double cash = Double.parseDouble(JOptionPane.showInputDialog(null, "Total Amount: $" + totalAmount + "\nEnter the amount of cash:"));
+
+        // Calculate and display change or insufficient balance message
+        double change = cash - totalAmount;
+        if (change >= 0) {
+            JOptionPane.showMessageDialog(null, "Change: $" + change);
+        } else {
+            JOptionPane.showMessageDialog(null, "Insufficient balance. Please provide enough cash.");
+        }
+
+        JOptionPane.showMessageDialog(null, "Thank you for using the jevstore mwa mwa!");
+    }
+    
+}
